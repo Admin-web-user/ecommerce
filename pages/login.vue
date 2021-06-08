@@ -1,9 +1,19 @@
 <template>
   <div class="h-80 justify-center align-center d-flex">
-    <div v-if="user[0]" class="title pa-2" :class="{'dark-morph' : mode, 'glass-morph' : !mode}">
-      You are already logged in
+    <div v-if="user[0] && user[0].emailVerified" class="title pa-2" :class="{'dark-morph' : mode, 'glass-morph' : !mode}">
+      You are logged in from <span style="color: firebrick">{{ user[0].email }}</span>. Log out from this id to login from another.
     </div>
-    <div v-if="!user[0]" class="login-form pa-2 w-100 max-w-500" :class="{'dark-morph' : mode, 'glass-morph' : !mode}">
+    <div v-if="user[0] && !user[0].emailVerified" class="title pa-2" :class="{'dark-morph' : mode, 'glass-morph' : !mode}">
+      You are logged in from <span style="color: firebrick">{{ user[0].email }} </span> but not yet verified.<br>
+      Please check your email <span style="color: firebrick">{{ user[0].email }} </span>for verification.
+      <br>
+      Didn't  receive an email?
+      <v-btn @click="resendEmailVerification">
+        Resend verification code
+      </v-btn><br>
+      <div>{{ resendNotification }}</div>
+    </div>
+    <div v-if="!user[0] && displayLogin" class="login-form pa-2 w-100 max-w-500" :class="{'dark-morph' : mode, 'glass-morph' : !mode}">
       <h1 class="text-center">
         LOGIN
       </h1>
@@ -45,13 +55,14 @@
       </v-btn>
 
       <div class="my-2 text-center">
-        Don't have any account? <v-btn class="grey lighten-5" @click="displayRegister = true">
+        Don't have any account? <v-btn class="grey lighten-5" @click="showRegister">
           Create an account
         </v-btn>
       </div>
-      <div v-if="displayRegister" class="fixed" transition="slide-x-transition">
-        <register @click="hideRegister()" />
-      </div>
+    </div>
+
+    <div v-if="displayRegister" class="w-100 max-w-500" transition="slide-x-transition">
+      <register @click="hideRegister()" />
     </div>
   </div>
 </template>
@@ -64,13 +75,6 @@ import 'firebase/auth'
 
 export default {
   components: { Register },
-  asyncData ({ req, redirect }) {
-    const user = firebase.auth().currentUser
-    const loggedIn = (localStorage.getItem('isLoggedIn') === 'true')
-    if (user || loggedIn) {
-      redirect('/')
-    }
-  },
   data () {
     return {
       inputedUser: {
@@ -78,7 +82,9 @@ export default {
         password: ''
       },
       err: '',
-      displayRegister: false
+      displayRegister: false,
+      displayLogin: true,
+      resendNotification: ''
     }
   },
   computed: {
@@ -89,7 +95,7 @@ export default {
     user () {
       const loggedIn = (localStorage.getItem('isLoggedIn') === 'true')
       if (this.user[0] || loggedIn) {
-        this.$router.push('/')
+        this.$router.push({ name: 'user-user', params: { user: this.user[0].id } })
       }
     }
   },
@@ -99,14 +105,26 @@ export default {
         firebase.auth().signInWithEmailAndPassword(this.inputedUser.email, this.inputedUser.password)
           .then((userCredential) => {
             console.log(userCredential.user)
-            this.$router.push({ name: 'user', params: { user: userCredential.user.uid } })
+            this.$router.push({ name: 'user-user', params: { user: userCredential.user.uid } })
           })
           .catch((error) => {
             this.err = error.message
           })
       }
     },
-    hideRegister () { this.displayRegister = false }
+    showRegister () {
+      this.displayRegister = true
+      this.displayLogin = false
+    },
+    hideRegister () {
+      this.displayRegister = false
+      this.displayLogin = true
+    },
+    resendEmailVerification () {
+      firebase.auth().sendEmailVerification().then(() => {
+        this.resendNotification = 'Verification email was sent'
+      })
+    }
   }
 }
 </script>
@@ -118,9 +136,5 @@ export default {
 .transparent-bg {
     box-shadow: none;
     background: transparent!important;;
-}
-.fixed {
-  position: fixed;
-  top: 0;
 }
 </style>

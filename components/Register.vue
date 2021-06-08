@@ -143,7 +143,11 @@ export default {
         if (!userCreds.user.emailVerified) {
           firebase.auth().currentUser.sendEmailVerification()
             .then(() => {
-              this.notification.push('An email with a verification link was sent. To verify, click the link sent to your email.')
+              userCreds.user.updateProfile({
+                displayName: this.name
+              }).catch((err) => { this.err += err })
+              this.notification.push(`An email with a verification link was sent to ${userCreds.user.email}
+              to confirm your account.`)
               this.submitted = true
             })
             .catch((error) => {

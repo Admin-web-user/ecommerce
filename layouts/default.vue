@@ -103,9 +103,17 @@
       <v-spacer />
     </v-app-bar>
     <v-main>
-      <v-container>
-        <nuxt />
-      </v-container>
+      <div class="h-100">
+        <v-progress-circular
+          v-if="!loaded"
+          :size="70"
+          :width="10"
+          class="text-center justify-center"
+          color="red"
+          indeterminate
+        />
+        <nuxt v-if="loaded" />
+      </div>
     </v-main>
   </section>
 </template>
@@ -113,11 +121,14 @@
 <script>
 import { mapMutations, mapState } from 'vuex'
 import LogOut from '~/components/LogOut.vue'
+import firebase from '~/plugins/firebase'
+import 'firebase/auth'
 
 export default {
   components: { LogOut },
   data () {
     return {
+      loaded: false,
       dialog: false,
       clipped: false,
       drawer: window.innerWidth >= 1264,
@@ -146,6 +157,10 @@ export default {
     ...mapState(['user', 'isLoggedIn'])
   },
   mounted () {
+    this.loaded = false
+    firebase.auth().onAuthStateChanged(() => {
+      this.loaded = true
+    })
     if (this.mode) {
       document.body.style.background = 'repeating-linear-gradient(#12011f, rgb(36, 24, 46), rgb(80, 45, 93))'
       document.body.style.backgroundAttachment = 'fixed'
@@ -158,7 +173,7 @@ export default {
     ...mapMutations('darkmode', ['toggleMode']),
     goToProfile () {
       if (this.user[0]) {
-        this.$router.push({ name: 'user', params: { user: this.user[0].id } })
+        this.$router.push({ name: 'user-user', params: { user: this.user[0].id } })
       } else {
         console.log(this.user[0])
         this.$router.push('/login')
