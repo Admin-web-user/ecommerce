@@ -65,23 +65,11 @@
             router
             exact
           >
-            <strong class="flex-auto">Login</strong>
+            <strong class="flex-auto">Login/Register</strong>
           </v-list-item>
         </button>
 
         <log-out v-if="user[0]" />
-
-        <button class="my-2 bg-firebrick v-btn rounded-pill justify-center w-100">
-          <v-list-item
-            v-if="!user[0] && !isLoggedIn"
-            style="cursor: pointer"
-            to="/register"
-            router
-            exact
-          >
-            <strong class="flex-auto">Create an account</strong>
-          </v-list-item>
-        </button>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar class="flex-auto theme--dark" :clipped-left="clipped" fixed app>

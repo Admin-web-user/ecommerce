@@ -37,16 +37,33 @@
       <div v-if="err">
         {{ err }}
       </div>
+      <h3 class="text-center my-2">
+        OR
+      </h3>
+      <v-btn class="deep-orange darken-3 w-100 rounded-pill py-5 my-2 mb-3 text-white">
+        Sign in with Google
+      </v-btn>
+
+      <div class="my-2 text-center">
+        Don't have any account? <v-btn class="grey lighten-5" @click="displayRegister = true">
+          Create an account
+        </v-btn>
+      </div>
+      <div v-if="displayRegister" class="fixed" transition="slide-x-transition">
+        <register @click="hideRegister()" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import Register from '~/components/Register.vue'
 import firebase from '~/plugins/firebase'
 import 'firebase/auth'
 
 export default {
+  components: { Register },
   asyncData ({ req, redirect }) {
     const user = firebase.auth().currentUser
     const loggedIn = (localStorage.getItem('isLoggedIn') === 'true')
@@ -60,7 +77,8 @@ export default {
         email: '',
         password: ''
       },
-      err: ''
+      err: '',
+      displayRegister: false
     }
   },
   computed: {
@@ -77,15 +95,18 @@ export default {
   },
   methods: {
     login () {
-      firebase.auth().signInWithEmailAndPassword(this.inputedUser.email, this.inputedUser.password)
-        .then((userCredential) => {
-          console.log(userCredential.user)
-          this.$router.push({ name: 'user', params: { user: userCredential.user.uid } })
-        })
-        .catch((error) => {
-          this.err = error.message
-        })
-    }
+      if (this.inputedUser.email.trim() && this.inputedUser.password.trim()) {
+        firebase.auth().signInWithEmailAndPassword(this.inputedUser.email, this.inputedUser.password)
+          .then((userCredential) => {
+            console.log(userCredential.user)
+            this.$router.push({ name: 'user', params: { user: userCredential.user.uid } })
+          })
+          .catch((error) => {
+            this.err = error.message
+          })
+      }
+    },
+    hideRegister () { this.displayRegister = false }
   }
 }
 </script>
@@ -97,5 +118,9 @@ export default {
 .transparent-bg {
     box-shadow: none;
     background: transparent!important;;
+}
+.fixed {
+  position: fixed;
+  top: 0;
 }
 </style>

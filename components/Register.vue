@@ -1,9 +1,8 @@
 <template>
-  <div class="d-flex justify-center align-center h-80 flex-column">
+  <div class="deep-purple lighten-5 pb-3 rounded-b2 d-flex justify-center align-center h-80 flex-column">
     <div
       v-if="notification[0]"
       class="pa-3 title text-center"
-      :class="{'dark-morph' : mode, 'glass-morph' : !mode}"
     >
       {{ notification[0] }} <br>
       Didn't  receive an email?
@@ -18,8 +17,7 @@
       v-if="!submitted"
       ref="form"
       v-model="valid"
-      class="pa-2 w-100"
-      :class="{'dark-morph' : mode, 'glass-morph' : !mode}"
+      class="pa-2 w-100 text-justify"
       lazy-validation
     >
       <h1>SIGN UP/REGISTER</h1>
@@ -65,8 +63,7 @@
       <v-btn
         id="Submit"
         :disabled="!valid"
-        color="dark"
-        class="mr-4"
+        class="mr-4 black text-white"
         @click="validate"
       >
         Submit
@@ -91,7 +88,11 @@
     >
       {{ err }}
     </v-chip>
-    <pre>{{ user[0] }}</pre>
+    <div>
+      Already have an account? <v-btn @click="hideRegister">
+        Login
+      </v-btn>
+    </div>
   </div>
 </template>
 
@@ -119,7 +120,7 @@ export default {
       password: '',
       showPassword: false,
       passwordRules: [
-        v => !!v.trim() || 'Password is required',
+        v => !!v || 'Password is required',
         v => (v && v.length >= 8) || 'Weak password'
       ],
       checkbox: false,
@@ -133,19 +134,23 @@ export default {
   mounted () {
   },
   methods: {
+    hideRegister () {
+      this.$emit('click')
+    },
     async register () {
-      const userCreds = await firebase.auth().createUserWithEmailAndPassword(this.email.trim(), this.password.trim())
-      if (!userCreds.user.emailVerified) {
-        firebase.auth().currentUser.sendEmailVerification()
-          .then(() => {
-            this.notification.push('An email with a verification link was sent. To verify, click the link sent to your email.')
-            this.submitted = true
-          })
-          .catch((error) => {
-            this.err = error
-            console.log(error)
-            userCreds.user.delete()
-          })
+      if (this.email.trim() && this.password.trim()) {
+        const userCreds = await firebase.auth().createUserWithEmailAndPassword(this.email.trim(), this.password.trim())
+        if (!userCreds.user.emailVerified) {
+          firebase.auth().currentUser.sendEmailVerification()
+            .then(() => {
+              this.notification.push('An email with a verification link was sent. To verify, click the link sent to your email.')
+              this.submitted = true
+            })
+            .catch((error) => {
+              this.err = error
+              userCreds.user.delete()
+            })
+        }
       }
     },
     resendEmailVerification () {
@@ -167,3 +172,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.rounded-b2 {
+  border-radius: 10px;
+}
+</style>
