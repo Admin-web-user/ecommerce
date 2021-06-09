@@ -28,13 +28,12 @@
         <v-text-field
           v-model="inputedUser.password"
           label="Password"
+          type="password"
           required
         />
-        <h4 class="mb-2">
-          <v-btn class="transparent-bg">
-            Forgot Password?
-          </v-btn>
-        </h4>
+        <div data-app class="my-4">
+          <reset-password />
+        </div>
 
         <v-btn
           color="red"
@@ -50,7 +49,7 @@
       <h3 class="text-center my-2">
         OR
       </h3>
-      <v-btn class="deep-orange darken-3 w-100 rounded-pill py-5 my-2 mb-3 text-white">
+      <v-btn class="deep-orange darken-3 w-100 rounded-pill py-5 my-2 mb-3 text-white" @click="loginWithGoogle">
         Sign in with Google
       </v-btn>
 
@@ -72,9 +71,10 @@ import { mapState } from 'vuex'
 import Register from '~/components/Register.vue'
 import firebase from '~/plugins/firebase'
 import 'firebase/auth'
+import ResetPassword from '~/components/ResetPassword.vue'
 
 export default {
-  components: { Register },
+  components: { Register, ResetPassword },
   data () {
     return {
       inputedUser: {
@@ -124,6 +124,11 @@ export default {
       firebase.auth().sendEmailVerification().then(() => {
         this.resendNotification = 'Verification email was sent'
       })
+    },
+    async loginWithGoogle () {
+      const provider = new firebase.auth.GoogleAuthProvider()
+      await firebase.auth().signInWithPopup(provider)
+      localStorage.setItem('isLoggedIn', true)
     }
   }
 }

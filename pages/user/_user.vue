@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class=" mx-lg-2 mx-md-2">
     <div :class="{'dark-morph' : mode, 'glass-morph' : !mode}">
       <p v-if="user[0].name" class="title">
         Welcome {{ user[0].name }}

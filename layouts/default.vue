@@ -107,7 +107,7 @@
         <v-progress-circular
           v-if="!loaded"
           :size="70"
-          :width="10"
+          :width="8"
           class="text-center justify-center"
           color="red"
           indeterminate
