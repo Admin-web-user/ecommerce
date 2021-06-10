@@ -757,7 +757,7 @@
 export default {
   data () {
     return {
-      Sitename: 'Odin',
+      Sitename: 'Icarus',
       Location: 'Chittagong, Bangladesh',
       PolicyDate: '06-05-2021',
       Country: 'Bangladesh'

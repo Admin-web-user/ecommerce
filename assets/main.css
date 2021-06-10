@@ -68,6 +68,7 @@ body {
   grid-template-columns: auto 60px;
   border-start-end-radius: 2pc;
   border-end-end-radius: 2pc;
+  display: none;
 }
 .searchbar-grid button {
   box-shadow: 0px 0px 3px 0px grey;
@@ -78,4 +79,22 @@ body {
 .border-bottom {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   margin-bottom: 10px;
+}
+@media (max-width: 767px) {
+  .grid-md {
+    display: grid!important;
+  }
+  .block-md {
+    display: block!important;
+  }
+  
+}
+@media (min-width: 768px) {
+  .grid-sm {
+    display: grid!important;
+  }
+  .block-sm {
+    display: block!important;
+  }
+  
 }

@@ -104,7 +104,6 @@ export default {
       if (this.inputedUser.email.trim() && this.inputedUser.password.trim()) {
         firebase.auth().signInWithEmailAndPassword(this.inputedUser.email, this.inputedUser.password)
           .then((userCredential) => {
-            console.log(userCredential.user)
             this.$router.push({ name: 'user-user', params: { user: userCredential.user.uid } })
           })
           .catch((error) => {
@@ -127,7 +126,7 @@ export default {
     },
     async loginWithGoogle () {
       const provider = new firebase.auth.GoogleAuthProvider()
-      await firebase.auth().signInWithPopup(provider)
+      await firebase.auth().signInWithPopup(provider).catch(() => {})
       localStorage.setItem('isLoggedIn', true)
     }
   }

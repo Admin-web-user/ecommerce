@@ -4,7 +4,7 @@ import 'firebase/auth'
 
 export default (context) => {
   const { store } = context
-
+  const products = []
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       if (user.user) {
@@ -18,12 +18,20 @@ export default (context) => {
         email: user.email,
         logged_at: firebase.firestore.FieldValue.serverTimestamp()
       }
-      console.log(setUser)
       db.collection('users').doc(setUser.id).set(setUser)
         .catch(err => console.log(err))
+
       store.commit('setUser', setUser)
     } else {
       store.commit('setUser', null)
     }
   })
+  db.collection('products')
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.docs.map((doc) => {
+        return products.push({ ...doc.data() })
+      })
+      store.commit('setProducts', products)
+    }).catch(err => console.log(err))
 }

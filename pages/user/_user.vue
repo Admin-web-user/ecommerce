@@ -1,9 +1,11 @@
 <template>
   <div class=" mx-lg-2 mx-md-2">
     <div :class="{'dark-morph' : mode, 'glass-morph' : !mode}">
-      <p v-if="user[0].name" class="title">
-        Welcome {{ user[0].name }}
-      </p>
+      <div v-if="user[0]">
+        <p v-if="user[0].name" class="title">
+          Welcome {{ user[0].name }}
+        </p>
+      </div>
       {{ $route.params.user }}
       <div v-if="user[0] && !user[0].emailVerified" class="my-3 mx-2 pa-2 text-center title">
         You have not verified your email. Please check your email [{{ user[0].email }}] to verify your account and start shopping.

@@ -9,7 +9,7 @@
       app
     >
       <v-list>
-        <div class="pt-2 white d-grid searchbar-grid w-100">
+        <div class="pt-2 white d-grid searchbar-grid grid-md w-100" style="box-shadow: 0px 0px 11px -3px blueviolet">
           <v-text-field
             class="ma-0 py-2"
             label="Search for products"
@@ -19,7 +19,7 @@
             <v-icon>mdi-magnify</v-icon>
           </button>
         </div>
-        <h2 class="text-center">
+        <h2 class="text-center mt-2">
           <b><v-icon>mdi-format-list-bulleted</v-icon> Categories</b>
         </h2><hr>
 
@@ -78,6 +78,18 @@
           {{ title }}
         </nuxt-link>
       </h1>
+
+      <div class="pa-1 mx-2 d-grid searchbar-grid grid-sm">
+        <input
+          class="ma-0 white pa-2 rounded-pill"
+          style="outline: transparent"
+          placeholder="Search for products"
+        >
+        <button class="mx-2 v-btn--icon" small>
+          <v-icon>mdi-magnify</v-icon>
+        </button>
+      </div>
+
       <button class="v-btn mx-2" @click="toggleMode">
         <v-icon class="theme--dark">
           mdi-moon-waning-crescent
@@ -135,21 +147,21 @@ export default {
       fixed: false,
       items: [
         {
-          icon: 'mdi-face',
-          title: 'Men',
-          items: ['T-shirts', 'Foot wear', 'Accessories'],
-          listIcon: 'mdi-chevron-right'
-        },
-        {
           icon: 'mdi-face-woman',
           title: 'Women',
           items: ['Saree', 'Shalwar Kameez', 'Foot wear', 'Accessories'],
+          listIcon: 'mdi-chevron-right'
+        },
+        {
+          icon: 'mdi-face',
+          title: 'Men',
+          items: ['T-shirts', 'Foot wear', 'Accessories'],
           listIcon: 'mdi-chevron-right'
         }
       ],
       miniVariant: false,
       right: true,
-      title: 'ODiN'
+      title: 'IcaRus'
     }
   },
   computed: {
@@ -175,7 +187,6 @@ export default {
       if (this.user[0]) {
         this.$router.push({ name: 'user-user', params: { user: this.user[0].id } })
       } else {
-        console.log(this.user[0])
         this.$router.push('/login')
       }
     }
