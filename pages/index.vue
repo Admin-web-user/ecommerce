@@ -20,14 +20,16 @@
       </h2>
       <div class="products d-grid">
         <div v-for="product in products" :key="product.id" :class="{'dark-morph' : mode, 'glass-morph' : !mode}" class="ma-1 mb-2 pb-2">
-          <div class="img text-center">
-            <img :src="product.imgURL" :alt="product.name">
-          </div>
-          <h3 :class="{'dark-morph' : mode, 'glass-morph' : !mode}" class="title product-name px-2">
-            {{ product.name }}
-          </h3>
-          <hr>
-          <span class="pa-2 ma-2 mt-1"><strong>{{ `${product.price['currency']}. ${product.price['number']}` }}</strong></span>
+          <nuxt-link class="text-black text-decoration-none" :to="{name: 'product-product', params: {product: product.id}}">
+            <div class="img text-center">
+              <img :src="product.imgURL" :alt="product.name">
+            </div>
+            <h3 :class="{'dark-morph' : mode, 'glass-morph' : !mode}" class="title product-name px-2">
+              {{ product.name }}
+            </h3>
+            <hr>
+            <span class="pa-2 ma-2 mt-1"><strong>{{ `${product.price['currency']}. ${product.price['number']}` }}</strong></span>
+          </nuxt-link>
         </div>
       </div>
     </div>
@@ -71,7 +73,7 @@ export default {
   max-height: 300px;
 }
   .products {
-    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
 }
 .product-name {
     text-overflow: ellipsis;

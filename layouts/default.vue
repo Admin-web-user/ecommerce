@@ -104,7 +104,7 @@
         class="mr-1"
         :content="1"
         :value="1"
-        color="error"
+        color="red"
       >
         <button class="v-btn" @click="goToProfile">
           <v-icon class=" theme--dark">

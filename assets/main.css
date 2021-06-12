@@ -6,6 +6,7 @@ body {
 }
 body {
   background-image: repeating-linear-gradient(0deg, #a63b7e, transparent );
+  /* background-image: url(https://admin-web-user.github.io/site-data/images/bitmap.png); */
   background-attachment: fixed;
   transition: cubic-bezier(0.075, 0.82, 0.165, 1) 2s;
 }
