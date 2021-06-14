@@ -19,16 +19,17 @@
         Newest
       </h2>
       <div class="products d-grid">
-        <div v-for="product in products" :key="product.id" :class="{'dark-morph' : mode, 'glass-morph' : !mode}" class="ma-1 mb-2 pb-2">
-          <nuxt-link class="text-black text-decoration-none" :to="{name: 'product-product', params: {product: product.id}}">
+        <div v-for="product in products" :key="product.id" :class="{'dark-morph' : mode, 'glass-morph' : !mode}" class="relative ma-1 mb-2 pb-2">
+          <nuxt-link class="text-decoration-none" :to="{name: 'product-product', params: {product: product.id}}">
             <div class="img text-center">
               <img :src="product.imgURL" :alt="product.name">
             </div>
-            <h3 :class="{'dark-morph' : mode, 'glass-morph' : !mode}" class="title product-name px-2">
+            <h3 :class="{'text-white' : mode, 'text-black' : !mode}" class="title product-name px-2">
               {{ product.name }}
             </h3>
             <hr>
-            <span class="pa-2 ma-2 mt-1"><strong>{{ `${product.price['currency']}. ${product.price['number']}` }}</strong></span>
+            <span class="pa-2 ma-2 mt-1" :class="{'text-white' : mode, 'text-black' : !mode}"><strong>{{ `${product.price['currency']}. ${product.price['number']}` }}</strong></span>
+            <span v-show="product.quantity === 0" class="absolute red out-of-stock"> Out of stock</span>
           </nuxt-link>
         </div>
       </div>
@@ -69,6 +70,10 @@ export default {
 </script>
 
 <style>
+.products div:hover {
+  transform: scale(1.03);
+  transition: .6s linear all;
+}
 .img img{
   max-height: 300px;
 }
@@ -80,6 +85,15 @@ export default {
     overflow: hidden;
     white-space: nowrap;
     text-align: center;
+}
+.relative {position: relative;}
+.absolute {position: absolute;}
+.out-of-stock {
+    top: 30%;
+    padding: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 8px 4px 1px rgb(0 0 0 / 60%);
+    box-shadow: 0px 8px 4px 1px rgb(0 0 0 / 60%);
 }
 @media (max-width: 700px) {
   .v-carousel{

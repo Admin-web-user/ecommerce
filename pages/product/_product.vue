@@ -5,40 +5,55 @@
     </pre>
     <div v-if="product[0]">
       <div>
-        <img :src="product[0].imgURL" :alt="product[0].name" :class="{'dark-morph' : mode, 'glass-morph' : !mode}" class="product-img pa-2">
-        <div :class="{'dark-morph' : mode, 'glass-morph' : !mode}" class="pa-2">
-          <h1 class="title pa-2">
-            {{ product[0].name }} <br>
-            <small>Brand: <b>{{ product[0].manufacturer }}</b></small>
-          </h1>
-          <h2 class="pa-1 my-1">
-            <strong>{{ `${product[0].price.currency}. ${product[0].price.number}` }}</strong>
-          </h2>
-          <p class="pa-1 my-1">
-            color: <b>{{ `${product[0].color}` }}</b>
-          </p>
-          <div class="pa-1 my-1 text-capitalize">
-            Categories: <span v-for="category in product[0].category" :key="category">
-              {{ category }}
-            </span>
+        <div id="for-pc-view" class="d-grid">
+          <div :class="{'dark-morph' : mode, 'glass-morph' : !mode}" class="text-center mt-1">
+            <img :src="product[0].imgURL" :alt="product[0].name" :class="{'dark-morph' : mode, 'glass-morph' : !mode}" class="product-img pa-2">
           </div>
-          <div class="">
-            <div class="cont">
-              <div class="crtdiv">
-                <span class="qty">
-                  <span class="dec">
-                    <v-icon>mdi-minus</v-icon>
+          <div :class="{'dark-morph' : mode, 'glass-morph' : !mode}" class="pa-2 mt-1">
+            <h1 class="title pa-2">
+              {{ product[0].name }} <br>
+              <small>Brand: <b>{{ product[0].manufacturer }}</b></small>
+            </h1>
+            <h2 class="pa-1 my-1">
+              <strong>{{ `${product[0].price.currency}. ${product[0].price.number}` }}</strong>
+            </h2>
+            <p class="pa-1 my-1">
+              color: <b>{{ `${product[0].color}` }}</b>
+            </p>
+            <div class="pa-1 my-1 text-capitalize">
+              Categories: <span v-for="category in product[0].category" :key="category">
+                {{ category }}
+              </span>
+            </div>
+            <div>
+              <div v-if="product[0].quantity === 0" class="no-stock">
+                Out of stock
+              </div>
+              <div v-else class="cont">
+                <div class="crtdiv">
+                  <span class="qty">
+                    <span class="dec" @click="decreaseQuantity">
+                      <v-icon>mdi-minus</v-icon>
+                    </span>
+                    <input v-model="quantity_selected" type="number" class="num">
+                    <span class="inc" @click="increaseQuantity">
+                      <v-icon>mdi-plus</v-icon>
+                    </span>
                   </span>
-                  <input value="1" type="number" class="num">
-                  <span class="inc">
-                    <v-icon>mdi-plus</v-icon>
-                  </span>
-                </span>
-                <button id="btn" type="button" class="cart">
-                  <i class="fa fa-shopping-cart" aria-hidden="true" /> Add to cart
-                </button>
+                  <button id="btn" type="button" class="cart">
+                    <i class="fa fa-shopping-cart" aria-hidden="true" /> Add to cart
+                  </button>
+                </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div class="pa-2 my-1" :class="{'dark-morph' : mode, 'glass-morph' : !mode}">
+          <h2 class="pa-2">
+            Product details of {{ product[0].name }}
+          </h2>
+          <div class="text-justify ">
+            {{ product[0].description }}
           </div>
         </div>
       </div>
@@ -55,7 +70,8 @@ export default {
   data () {
     return {
       err: '',
-      product: []
+      product: [],
+      quantity_selected: 1
     }
   },
   computed: {
@@ -77,6 +93,16 @@ It might be a server side issue but make sure you've entered the correct url`
           this.product.push(data)
           console.log(this.product)
         }).catch((err) => { this.err = err })
+    },
+    decreaseQuantity () {
+      if (this.quantity_selected !== 1) {
+        this.quantity_selected--
+      }
+    },
+    increaseQuantity () {
+      if (this.quantity_selected !== this.product[0].quantity) {
+        this.quantity_selected++
+      }
     }
   }
 }
@@ -164,5 +190,19 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+.no-stock {
+  background: #a83939;
+  padding: 5px;
+  border-radius: 5px;
+  color: white;
+  font-weight: bolder;
+  border: 1px solid white;
+}
+@media (min-width:768px) {
+#for-pc-view {
+  grid-template-columns: auto auto;
+  gap: 5px;
+}
 }
 </style>

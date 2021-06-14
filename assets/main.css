@@ -10,6 +10,9 @@ body {
   background-attachment: fixed;
   transition: cubic-bezier(0.075, 0.82, 0.165, 1) 2s;
 }
+.v-application a {
+  color: initial!important;
+}
 .v-main__wrap,.container,.v-main, .v-application {height: 100%;}
 ._title {
   -webkit-text-stroke: 2px mediumvioletred;
@@ -27,7 +30,8 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 .dark-morph {
-  background: rgba(255, 255, 255, 0.8);
+  color: white!important;
+  background: rgba(255, 255, 255, 0.129);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(2.5px);
   -webkit-backdrop-filter: blur(2.5px);
