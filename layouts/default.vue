@@ -75,7 +75,7 @@
     <v-app-bar class="flex-auto theme--dark" :clipped-left="clipped" fixed app>
       <h1 class=" ma-0 flex-auto w-100">
         <nuxt-link to="/" class="_title text-decoration-none text-white">
-          {{ title }}
+          <img id="logo" src="https://admin-web-user.github.io/site-data/images/icarus.png" alt="Icarus logo">
         </nuxt-link>
       </h1>
 
@@ -174,11 +174,9 @@ export default {
       this.loaded = true
     })
     if (this.mode) {
-      document.body.style.background = 'repeating-linear-gradient(#12011f, rgb(36, 24, 46), rgb(80, 45, 93))'
-      document.body.style.backgroundAttachment = 'fixed'
+      document.body.style.background = 'repeating-linear-gradient(rgb(25 31 1), rgb(28 46 24), rgb(63 93 45)) fixed rgb(6 31 1)'
     } else {
-      document.body.style.background = 'repeating-linear-gradient(0deg, #a63b7e, transparent )'
-      document.body.style.backgroundAttachment = 'fixed'
+      document.body.style.background = 'repeating-linear-gradient(0deg, rgb(59 166 79), transparent) fixed'
     }
   },
   methods: {

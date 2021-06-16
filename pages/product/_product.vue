@@ -3,9 +3,9 @@
     <pre v-if="err" class="error text-white pa-2" :class="{'dark-morph' : mode, 'glass-morph' : !mode}">
       {{ err }}
     </pre>
-    <div v-if="product[0]">
+    <div v-if="product[0]" class="pb-2">
       <div>
-        <div id="for-pc-view" class="d-grid">
+        <div class="d-grid for-pc-view">
           <div :class="{'dark-morph' : mode, 'glass-morph' : !mode}" class="text-center mt-1">
             <img :src="product[0].imgURL" :alt="product[0].name" :class="{'dark-morph' : mode, 'glass-morph' : !mode}" class="product-img pa-2">
           </div>
@@ -56,6 +56,31 @@
             {{ product[0].description }}
           </div>
         </div>
+
+        <div class="pa-2 my-1" :class="{'dark-morph' : mode, 'glass-morph' : !mode}">
+          <h2>Ratings / Reviews</h2><hr>
+          <div class="d-grid for-pc-review ma-1">
+            <div class="my-1">
+              <textarea class="reviews" :class="{'text-white' : mode}" />
+            </div>
+            <div>
+              <h3>10 Ratings/ 1 Reviews</h3>
+              <div v-for="rating in ratings" :key="rating.star" class="d-flex rating-bar my-1">
+                <strong>{{ rating.star }}</strong><v-progress-linear
+                  v-model="rating.rated_by"
+                  color="red"
+                  class=" rounded-pill"
+                  height="18"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-grid given-reviews my-1" :class="{'dark-morph' : mode, 'glass-morph' : !mode}">
+          <h2 class="text-center pa-1">
+            No reviews
+          </h2>
+        </div>
       </div>
     </div>
   </div>
@@ -63,7 +88,6 @@
 
 <script>
 import { mapState } from 'vuex'
-// import firebase from '~/plugins/firebase'
 import db from '~/plugins/db'
 
 export default {
@@ -71,7 +95,9 @@ export default {
     return {
       err: '',
       product: [],
-      quantity_selected: 1
+      quantity_selected: 1,
+      ratings: [{ star: 5, rated_by: 70 }, { star: 4, rated_by: 15 }, { star: 3, rated_by: 6 },
+        { star: 2, rated_by: 5 }, { star: 1, rated_by: 2 }]
     }
   },
   computed: {
@@ -92,7 +118,7 @@ It might be a server side issue but make sure you've entered the correct url`
           }
           this.product.push(data)
           console.log(this.product)
-        }).catch((err) => { this.err = err })
+        }).catch((err) => { this.err = err.message })
     },
     decreaseQuantity () {
       if (this.quantity_selected !== 1) {
@@ -109,6 +135,24 @@ It might be a server side issue but make sure you've entered the correct url`
 </script>
 
 <style>
+.reviews {
+    resize: none;
+    max-width: 400px;
+    width: 100%;
+    outline: none;
+    height: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid ghostwhite;
+    background: rgba(114, 121, 116, 0.3);
+}
+.rating-bar {
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    max-width: 400px;
+}
 .error {
     font-size: 2rem;
     text-align: center;
@@ -200,8 +244,12 @@ input::-webkit-inner-spin-button {
   border: 1px solid white;
 }
 @media (min-width:768px) {
-#for-pc-view {
+.for-pc-view {
   grid-template-columns: auto auto;
+  gap: 5px;
+}
+.for-pc-review {
+  grid-template-columns: 50% 50%;
   gap: 5px;
 }
 }

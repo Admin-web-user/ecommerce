@@ -22,11 +22,13 @@
       >
         <v-text-field
           v-model="inputedUser.email"
+          :class="{'text-white':mode}"
           label="E-mail"
           required
         />
         <v-text-field
           v-model="inputedUser.password"
+          :class="{'text-white':mode}"
           label="Password"
           type="password"
           required

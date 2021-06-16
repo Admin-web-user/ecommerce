@@ -5,10 +5,14 @@ body {
   height: 100%;
 }
 body {
-  background-image: repeating-linear-gradient(0deg, #a63b7e, transparent );
+  background: repeating-linear-gradient(0deg, rgb(59 166 79), transparent) fixed;
   /* background-image: url(https://admin-web-user.github.io/site-data/images/bitmap.png); */
-  background-attachment: fixed;
   transition: cubic-bezier(0.075, 0.82, 0.165, 1) 2s;
+}
+#logo {
+  max-width: 120px;
+  width: 100%;
+  vertical-align: middle;
 }
 .v-application a {
   color: initial!important;

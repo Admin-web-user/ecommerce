@@ -10,6 +10,7 @@
       <template #activator="{ on, attrs }">
         <v-btn
           class="transparent-bg"
+          :class="{'text-white':mode}"
           v-bind="attrs"
           v-on="on"
         >
@@ -17,6 +18,7 @@
         </v-btn>
         <div
           v-show="notification && chip"
+          :class="{'text-white':mode}"
           class="ma-2 red accent-1 rounded-pill pa-1"
           close
         >
@@ -61,6 +63,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import firebase from '~/plugins/firebase'
 import 'firebase/auth'
 
@@ -72,6 +75,9 @@ export default {
       notification: '',
       chip: true
     }
+  },
+  computed: {
+    ...mapState('darkmode', ['mode'])
   },
   methods: {
     resetPassword () {
