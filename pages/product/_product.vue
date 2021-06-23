@@ -60,11 +60,24 @@
         <div class="pa-2 my-1" :class="{'dark-morph' : mode, 'glass-morph' : !mode}">
           <h2>Ratings / Reviews</h2><hr>
           <div class="d-grid for-pc-review ma-1">
-            <div class="my-1">
-              <textarea class="reviews" :class="{'text-white' : mode}" />
-            </div>
             <div>
-              <h3>10 Ratings/ 1 Reviews</h3>
+              <form class="my-1" @submit.prevent>
+                <v-rating
+                  hover
+                  background-color="orange darken-4"
+                  color="orange"
+                  length="5"
+                  size="50"
+                  :value="rating_given"
+                />
+                <textarea class="reviews" :class="{'text-white' : mode}" />
+                <v-btn class="text-white red darken-4">
+                  Submit
+                </v-btn>
+              </form>
+            </div>
+            <div style="align-items: center;display: grid;">
+              <h3>{{ totalStar }} Ratings/ 1 Reviews</h3>
               <div v-for="rating in ratings" :key="rating.star" class="d-flex rating-bar my-1">
                 <strong>{{ rating.star }}</strong><v-progress-linear
                   v-model="rating.rated_by"
@@ -87,6 +100,7 @@
 </template>
 
 <script>
+/* eslint-disable eqeqeq */
 import { mapState } from 'vuex'
 import db from '~/plugins/db'
 
@@ -96,19 +110,30 @@ export default {
       err: '',
       product: [],
       quantity_selected: 1,
-      ratings: [{ star: 5, rated_by: 70 }, { star: 4, rated_by: 15 }, { star: 3, rated_by: 6 },
-        { star: 2, rated_by: 5 }, { star: 1, rated_by: 2 }]
+      rating_given: 0,
+      ratings: [{ star: 5, rated_by: 0 }, { star: 4, rated_by: 0 }, { star: 3, rated_by: 0 }, { star: 2, rated_by: 0 },
+        { star: 1, rated_by: 0 }],
+      totalStar: 0
     }
   },
   computed: {
-    ...mapState('darkmode', ['mode'])
+    ...mapState('darkmode', ['mode']),
+    AverageRating () {
+      let totalRating = 0
+      for (let i = 0; i < this.ratings.length; i++) {
+        totalRating += this.ratings[i].star * this.ratings[i].rated_by
+      }
+      const AverageRating = this.totalStar !== 0 ? totalRating / this.totalStar : 0
+      return AverageRating
+    }
   },
   mounted () {
-    this.initProduct(this.$route.params.product)
+    this.initReviews('products_reviews', this.$route.params.product)
+    this.initProduct('products', this.$route.params.product)
   },
   methods: {
-    async initProduct (id) {
-      await db.collection('products').doc(id).get()
+    async initProduct (collection, id) {
+      await db.collection(collection).doc(id).get()
         .then((product) => {
           const data = product.data()
           if (!data) {
@@ -118,6 +143,45 @@ It might be a server side issue but make sure you've entered the correct url`
           }
           this.product.push(data)
           console.log(this.product)
+        }).catch((err) => { this.err = err.message })
+    },
+    async initReviews (collection, id) {
+      await db.collection(collection).doc(id).get()
+        .then((reviews) => {
+          const data = reviews.data()
+          if (!data) {
+            this.err = 'There was an error'
+          }
+          console.log(data)
+          let star5 = 0
+          let star4 = 0
+          let star3 = 0
+          let star2 = 0
+          let star1 = 0
+          let totalstar = 0
+          for (let i = 0; i < data.reviews.length; i++) {
+            totalstar += data.reviews[i].star > 0 ? 1 : 0
+          }
+          for (let i = 0; i < data.reviews.length; i++) {
+            console.log(`total_star = ${totalstar}`)
+            if (data.reviews[i].star > 4) {
+              star5 += ((star5 + 1) / totalstar) * 100
+            } else if (data.reviews[i].star > 3) {
+              star4 += ((star4 + 1) / totalstar) * 100
+            } else if (data.reviews[i].star > 2) {
+              star3 += ((star3 + 1) / totalstar) * 100
+            } else if (data.reviews[i].star > 1) {
+              star2 += ((star2 + 1) / totalstar) * 100
+            } else if (data.reviews[i].star > 0) {
+              star1 += ((star1 + 1) / totalstar) * 100
+            }
+          }
+          this.totalStar = totalstar
+          this.ratings[0].rated_by = star5
+          this.ratings[1].rated_by = star4
+          this.ratings[2].rated_by = star3
+          this.ratings[3].rated_by = star2
+          this.ratings[4].rated_by = star1
         }).catch((err) => { this.err = err.message })
     },
     decreaseQuantity () {
@@ -137,10 +201,9 @@ It might be a server side issue but make sure you've entered the correct url`
 <style>
 .reviews {
     resize: none;
-    max-width: 400px;
     width: 100%;
     outline: none;
-    height: 100%;
+    min-height: 150px;
     padding: 10px;
     border-radius: 10px;
     border: 1px solid ghostwhite;
@@ -154,7 +217,7 @@ It might be a server side issue but make sure you've entered the correct url`
     max-width: 400px;
 }
 .error {
-    font-size: 2rem;
+    font-size: 1.2rem;
     text-align: center;
     white-space: break-spaces;
 }
@@ -250,7 +313,7 @@ input::-webkit-inner-spin-button {
 }
 .for-pc-review {
   grid-template-columns: 50% 50%;
-  gap: 5px;
+  gap: 10px;
 }
 }
 </style>

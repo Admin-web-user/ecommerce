@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class=" text-uppercase text-center pa-2" :class="{'dark-morph' : mode, 'glass-morph' : !mode}">
+    <h1 class=" text-uppercase pa-2" :class="{'dark-morph' : mode, 'glass-morph' : !mode}">
       {{ `${$route.params.category}/${$route.params.subcategory}` }}
     </h1>
   </div>
@@ -11,6 +11,9 @@ import { mapState } from 'vuex'
 export default {
   computed: {
     ...mapState('darkmode', ['mode'])
+  },
+  mounted () {
+    console.log(this.$route)
   }
 }
 </script>

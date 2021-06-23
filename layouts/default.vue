@@ -40,16 +40,36 @@
                 <div v-if="item.items">
                   <v-list-item
                     v-for="subItem in item.items"
-                    :key="subItem"
+                    :key="subItem.tag"
                   >
-                    <nuxt-link
-                      :to="{name: 'category-subcategory', params: {
-                        category:item.title, subcategory: subItem
-                      }}"
-                      class="v-btn text-black w-100"
-                    >
-                      <strong>{{ subItem }}</strong>
-                    </nuxt-link>
+                    <v-expansion-panels class="pa-0">
+                      <v-expansion-panel class="pa-0 transparent">
+                        <v-expansion-panel-header class="pa-0">
+                          <button class="v-btn w-100">
+                            <strong>{{ subItem.tag }}</strong>
+                          </button>
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                          <div v-if="item.items">
+                            <v-list-item
+                              v-for="(sub_item, i) in subItem.subItems"
+                              :key="i"
+                            >
+                              <nuxt-link
+                                class="text-decoration-none"
+                                :to="{name: 'category-subcategory', params: {
+                                  category:item.title, subcategory: `${subItem.tag}/${sub_item}`
+                                }}"
+                              >
+                                <button class="v-btn w-100">
+                                  {{ sub_item }}
+                                </button>
+                              </nuxt-link>
+                            </v-list-item>
+                          </div>
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                    </v-expansion-panels>
                   </v-list-item>
                 </div>
               </v-expansion-panel-content>
@@ -149,13 +169,19 @@ export default {
         {
           icon: 'mdi-face-woman',
           title: 'Women',
-          items: ['Saree', 'Shalwar Kameez', 'Foot wear', 'Accessories'],
+          items: [{ tag: 'Upper wear', subItems: ['T-shirts', 'Shirts', 'Ethnic Wear', 'Caps & Hats'] },
+            { tag: 'Bottom wear', subItems: [{ Jeans: ['Regular', 'Distorted'] }, 'Chinos', 'Gabadine', 'Cotton Trousers', 'Shorts'] },
+            { tag: 'Inner wear', subItems: ['Trunks', 'Boxers', 'Briefs'] },
+            { tag: 'Sports wear', subItems: ['Jerseys', 'Trousers', 'Shorts'] }],
           listIcon: 'mdi-chevron-right'
         },
         {
           icon: 'mdi-face',
           title: 'Men',
-          items: ['T-shirts', 'Foot wear', 'Accessories'],
+          items: [{ tag: 'Upper wear', subItems: ['T-shirts', 'Shirts', 'Ethnic Wear', 'Caps & Hats'] },
+            { tag: 'Bottom wear', subItems: ['Jeans', 'Chinos', 'Gabadine', 'Cotton Trousers', 'Shorts'] },
+            { tag: 'Inner wear', subItems: ['Trunks', 'Boxers', 'Briefs'] },
+            { tag: 'Sports wear', subItems: ['Jerseys', 'Trousers', 'Shorts'] }],
           listIcon: 'mdi-chevron-right'
         }
       ],
@@ -191,3 +217,12 @@ export default {
   }
 }
 </script>
+
+<style>
+.v-list-item {
+    padding: 0 5px;
+}
+.v-expansion-panel-content__wrap {
+  padding: 0 0 0 0;
+}
+</style>
