@@ -77,13 +77,14 @@
               </form>
             </div>
             <div style="align-items: center;display: grid;">
+              <h2 class="text-center average-rating">{{ AverageRating }}/5</h2>
               <h3>{{ totalStar }} Ratings/ 1 Reviews</h3>
               <div v-for="rating in ratings" :key="rating.star" class="d-flex rating-bar my-1">
                 <strong>{{ rating.star }}</strong><v-progress-linear
                   v-model="rating.rated_by"
                   color="red"
                   class=" rounded-pill"
-                  height="18"
+                  height="15"
                 />
               </div>
             </div>
@@ -121,9 +122,9 @@ export default {
     AverageRating () {
       let totalRating = 0
       for (let i = 0; i < this.ratings.length; i++) {
-        totalRating += this.ratings[i].star * this.ratings[i].rated_by
+        totalRating += this.ratings[i].star * (this.ratings[i].rated_by / 100)
       }
-      const AverageRating = this.totalStar !== 0 ? totalRating / this.totalStar : 0
+      const AverageRating = this.totalStar !== 0 ? totalRating : 0
       return AverageRating
     }
   },
@@ -305,6 +306,9 @@ input::-webkit-inner-spin-button {
   color: white;
   font-weight: bolder;
   border: 1px solid white;
+}
+.average-rating {
+  font-size: 2rem;
 }
 @media (min-width:768px) {
 .for-pc-view {
