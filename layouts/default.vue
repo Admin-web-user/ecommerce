@@ -95,7 +95,7 @@
     <v-app-bar class="flex-auto theme--dark" :clipped-left="clipped" fixed app>
       <h1 class=" ma-0 flex-auto w-100">
         <nuxt-link to="/" class="_title text-decoration-none text-white">
-          <img id="logo" src="https://admin-web-user.github.io/site-data/images/ESMARY_3.png" alt="esmary logo">
+          <img id="logo" src="@/static/esmary.png" alt="esmary logo">
         </nuxt-link>
       </h1>
 
@@ -200,9 +200,9 @@ export default {
       this.loaded = true
     })
     if (this.mode) {
-      document.body.style.background = 'repeating-linear-gradient(rgb(25, 31, 1), rgb(82 60 0), #946f00) fixed rgb(18, 1, 31)'
+      document.body.style.background = '#272727'
     } else {
-      document.body.style.background = 'repeating-linear-gradient(0deg, rgb(175 144 21), transparent) fixed'
+      document.body.style.background = 'white'
     }
   },
   methods: {
