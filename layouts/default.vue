@@ -2,6 +2,7 @@
   <section class="v-application v-application--is-ltr">
     <v-navigation-drawer
       v-model="drawer"
+      :style="{background: mode?bgColor:''}"
       :class="{'dark-morph' : mode, 'glass-morph' : !mode}"
       :mini-variant="miniVariant"
       :clipped="clipped"
@@ -160,6 +161,7 @@ export default {
   components: { LogOut },
   data () {
     return {
+      bgColor: 'rgba(255,255,255,0.7)',
       loaded: false,
       dialog: false,
       clipped: false,
@@ -225,4 +227,5 @@ export default {
 .v-expansion-panel-content__wrap {
   padding: 0 0 0 0;
 }
+.v-toolbar .v-toolbar__content {gap:1vw;}
 </style>

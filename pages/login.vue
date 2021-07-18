@@ -24,14 +24,18 @@
           v-model="inputedUser.email"
           :class="{'text-white':mode}"
           label="E-mail"
+          outlined
           required
         />
         <v-text-field
           v-model="inputedUser.password"
           :class="{'text-white':mode}"
           label="Password"
-          type="password"
+          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="showPassword ? 'text' : 'password'"
           required
+          outlined
+          @click:append="showPassword = !showPassword"
         />
         <div data-app class="my-4">
           <reset-password />
@@ -39,7 +43,7 @@
 
         <v-btn
           color="red"
-          class="mr-4 w-100"
+          class="mr-4 w-100 text-white py-6"
           @click="login()"
         >
           Login
@@ -51,12 +55,12 @@
       <h3 class="text-center my-2">
         OR
       </h3>
-      <v-btn class="deep-orange darken-3 w-100 rounded-pill py-5 my-2 mb-3 text-white" @click="loginWithGoogle">
+      <v-btn class="deep-orange darken-3 w-100 rounded-pill py-6 my-2 mb-3 text-white" @click="loginWithGoogle">
         Sign in with Google
       </v-btn>
 
       <div class="my-2 text-center">
-        Don't have any account? <v-btn class="grey lighten-5" @click="showRegister">
+        Don't have any account? <v-btn :class="{'text-white':mode}" class="transparent" @click="showRegister">
           Create an account
         </v-btn>
       </div>
@@ -86,7 +90,8 @@ export default {
       err: '',
       displayRegister: false,
       displayLogin: true,
-      resendNotification: ''
+      resendNotification: '',
+      showPassword: false
     }
   },
   computed: {
@@ -136,6 +141,9 @@ export default {
 </script>
 
 <style>
+input {
+  padding: 12px 0px!important;
+}
 .max-w-500 {
   max-width: 500px;
 }

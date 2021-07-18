@@ -26,6 +26,7 @@
         :counter="10"
         :rules="nameRules"
         label="Full name"
+        outlined
         required
       />
 
@@ -33,6 +34,7 @@
         v-model="email"
         :rules="emailRules"
         label="E-mail"
+        outlined
         required
       />
 
@@ -44,7 +46,9 @@
         name="input-10-1"
         label="Password"
         hint="At least 8 characters"
+        outlined
         counter
+        required
         @click:append="showPassword = !showPassword"
       />
 

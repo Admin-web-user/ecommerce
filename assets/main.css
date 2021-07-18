@@ -9,8 +9,10 @@ body {
   transition: cubic-bezier(0.075, 0.82, 0.165, 1) 2s;
 }
 #logo {
-  max-width: 220px;
-  height: 62px;
+  max-width:180px;
+  max-height: 56px;
+  height: 100%;
+  width: 100%;
   vertical-align: middle;
   background: rgb(255,255,255);
   background: linear-gradient(
