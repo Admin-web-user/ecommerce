@@ -1,0 +1,113 @@
+:root {
+  --primary: #333617;
+}
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Lato", "Poppins", sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+  color: inherit;
+}
+.text-justify {
+  text-align: justify;
+}
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  fill: white;
+  stroke: white;
+}
+.navbar-dark .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+.hover:hover {
+  background-color: var(--primary);
+}
+.product {
+  min-width: calc(10rem + 12vw);
+  gap: 0.5rem;
+  background: #f5f5f5;
+  border: 1px solid #eaeaea;
+  padding-bottom: 1vw;
+}
+.product_name {
+  font-weight: bolder;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  height: 2ch;
+}
+.hide_scroll::-webkit-scrollbar {
+  display: none;
+}
+.hide_scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.arrow_btn {
+  background-color: #e2e2e2;
+  box-shadow: 1px 1px 1px 1px #969696;
+}
+button.btn.bg-transparent.btn-outline-light:hover {
+  background: white !important;
+  color: black;
+}
+.md_res_txt {
+  font-size: clamp(1em, 4vw, 1.5em);
+}
+.input_container {
+  color: white;
+}
+.input_container input::placeholder {
+  color: white !important;
+}
+.border_x {
+  border-right: 1px solid var(--bs-gray-200);
+  border-bottom: 1px solid var(--bs-gray-200);
+}
+.product * {
+  transition: 0.5s ease;
+}
+.product_hover:hover {
+  filter: brightness(1.2);
+}
+.product_hover:hover img {
+  transform: scale(1.5);
+}
+.pt-top {
+  padding-top: 60px;
+}
+.fs-clamp-1 {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+}
+.ratingBar {
+  grid-template-columns: 36px auto;
+  align-items: center;
+}
+.bg-light-1 {
+  background: #f4f4f4;
+}
+@media (max-width: 450px) {
+  .small_arrow {
+    width: 40px;
+    height: auto;
+  }
+}
+@media (max-width: 768px) {
+  .nav_container {
+    backdrop-filter: blur(25px);
+    border-radius: 5px;
+    z-index: 1;
+  }
+}
