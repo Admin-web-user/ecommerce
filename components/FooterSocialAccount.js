@@ -10,7 +10,7 @@ export default function FooterSocialAccount() {
 
         <Row>
             <Col><h4>ESMARY</h4></Col>
-            <Col>
+            <Col className="pb-1">
                 {
                     socialAppIcons.map((icon, i) => (
                         <button className="btn border border-light mx-2 hover" key={i}>

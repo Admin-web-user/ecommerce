@@ -19,11 +19,13 @@ export default function Home({ featuredProducts, bestDeals }) {
           DISCOVER SECRETS OF SAVING MONEY ONLINE
         </h1>
         <button className="btn bg-transparent btn-outline-light btn-lg border border-3 rounded-0 mx-auto mb-5"
-          style={{ fontSize: "1.25em", width: "200px", fontWeight: '600' }}>SHOP NOW</button>
+          style={{ fontSize: "1.25em", width: "200px", fontWeight: '600' }}>
+            <a href="#popularCategories">SHOP NOW</a>
+            </button>
         <hr className="opacity-0" />
       </div>
 
-      <ProductSilder products={featuredProducts} title="Popular Categories" />
+      <ProductSilder id="popularCategories" products={featuredProducts} title="Popular Categories" />
       <ProductSilder products={bestDeals} title="Best Deals" />
       <Banner
         suptitle="Complete your look with"

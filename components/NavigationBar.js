@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { SearchIcon } from '@primer/octicons-react';
-import {CartIcon, GridIcon} from './icons/Icon';
+import { CartIcon, GridIcon } from './icons/Icon';
 import Nav from "react-bootstrap/Nav";
 import ListGroup from 'react-bootstrap/ListGroup';
 import Navbar from "react-bootstrap/Navbar";
@@ -10,15 +10,16 @@ import Background1 from '../public/images/bg1.webp';
 
 export default function NavigationBar() {
     const navItems = [
-        { text: "All Categories", type: "offcanvas", icon: <GridIcon size="15"/> },
+        { text: "All Categories", type: "offcanvas", icon: <GridIcon size="15" /> },
         { text: "Sell", route: "/sell" },
-        { text: "Cart", route: "/cart", icon: <CartIcon fill="white" size="15"/> },
+        { text: "Cart", route: "/cart", icon: <CartIcon fill="white" size="15" /> },
         { text: "Sign in/up", route: "/auth" }
     ];
 
     const AllCategories = [
-        { text: "Men", route: "/men" }, { text: "Women", route: "women" }, { text: "Combo", route: "combo" }
-        , { text: "Special", route: "special"}, { text: "Sneakers & Athletic", route: "" }
+        { text: "All", route: "/products" },
+        { text: "Men", route: "/products/men's clothing" }, { text: "Women", route: "/products/women's clothing" }, { text: "Combo", route: "" }
+        , { text: "Special", route: "" }, { text: "Sneakers & Athletic", route: "" }
     ]
     const [show, setShow] = useState(null);
 
@@ -28,8 +29,8 @@ export default function NavigationBar() {
     return (
         <>
             <Navbar collapseOnSelect expand="md"
-            style={{ zIndex: 1, background: `url(${Background1?.src})`, backgroundPosition: "center", backgroundAttachment: "fixed" }}
-             className="position-absolute w-100 bg-transparent text-white">
+                style={{ zIndex: 1, background: `url(${Background1?.src})`, backgroundPosition: "center", backgroundAttachment: "fixed" }}
+                className="position-absolute w-100 bg-transparent text-white">
                 <div className="container-fluid px-lg-5">
                     <Link href="/">
                         <a className="text-white navbar-brand">ESMARY</a>
@@ -53,13 +54,13 @@ export default function NavigationBar() {
                                             {item?.type === "offcanvas" ? (
                                                 <>
                                                     <button className="btn w-100 hover mx-lg-3 text-white" onClick={() => handleShow(item?.text)}>
-                                                    <span style={{fill: "white"}}>{item?.icon}</span> {item?.text}
+                                                        <span style={{ fill: "white" }}>{item?.icon}</span> {item?.text}
                                                     </button><hr className="d-md-none mb-0" />
 
                                                     <Offcanvas show={show === item?.text} onHide={handleClose}>
                                                         <Offcanvas.Header closeButton>
                                                             <Offcanvas.Title>
-                                                                {item?.text} <span style={{fill: "black"}}>{item?.icon}</span>
+                                                                {item?.text} <span style={{ fill: "black" }}>{item?.icon}</span>
                                                             </Offcanvas.Title>
                                                         </Offcanvas.Header>
                                                         <Offcanvas.Body>
@@ -67,7 +68,11 @@ export default function NavigationBar() {
                                                                 {
                                                                     AllCategories.map(category => (
                                                                         <ListGroup.Item key={category?.text}>
-                                                                            {category?.text}
+                                                                            <Link href={category?.route} passHref>
+                                                                                <button className="w-100 btn">
+                                                                                    {category?.text}
+                                                                                </button>
+                                                                            </Link>
                                                                         </ListGroup.Item>
                                                                     ))
                                                                 }
@@ -76,10 +81,10 @@ export default function NavigationBar() {
                                                     </Offcanvas>
                                                 </>
                                             ) : (
-                                                    <Link href={item?.route}>
-                                                        <a className="btn w-100 hover mx-lg-3 text-white">
-                                                            {item?.icon} {item.text}<hr className="d-md-none mb-0" /></a>
-                                                    </Link>
+                                                <Link href={item?.route}>
+                                                    <a className="btn w-100 hover mx-lg-3 text-white">
+                                                        {item?.icon} {item.text}<hr className="d-md-none mb-0" /></a>
+                                                </Link>
                                             )}
                                         </Nav.Item>
                                     )

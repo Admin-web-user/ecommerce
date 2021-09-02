@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Spinner from 'react-bootstrap/Spinner'
 import { ChevronRightIcon } from '@primer/octicons-react'
 
-function PopularCategories({ products, title }) {
+function PopularCategories({ products, title, id }) {
 
     const productContainer = useRef();
 
@@ -18,10 +18,10 @@ function PopularCategories({ products, title }) {
     }
     return (
         <>
-            <section style={{ padding: "4vw .5rem" }}>
+            <section style={{ padding: "4vw .5rem" }} id={id}>
                 <div className="py-3 d-flex justify-content-between pl-2 pr-1">
                     <h2>{title}</h2>
-                    <button className="btn text-decoration-underline">View all</button>
+                    <Link href="/products"><a className="btn">View all</a></Link>
                 </div>
                 {
                     products ? (
@@ -31,7 +31,8 @@ function PopularCategories({ products, title }) {
                                 {
                                     products.map(product => (
                                         <Link href={`/product/${product?.id}`} key={product?.title} passHref>
-                                        <div className="product product_hover d-grid justify-content-center align-items-stretch">
+                                        <div style={{minWidth: "calc(10rem + 12vw)"}}
+                                        className="product product_hover d-grid justify-content-center align-items-stretch">
                                             <Image
                                                 src={product?.image} width={500}
                                                 height={500} alt={product?.ttle} />
