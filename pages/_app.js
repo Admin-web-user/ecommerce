@@ -4,6 +4,7 @@ import NavigationBar from '../components/NavigationBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/globals.css';
 import 'nprogress/nprogress.css';
+import 'chartist/dist/chartist.css'
 import Footer from '../components/Footer';
 
 function MyApp({ Component, pageProps }) {

@@ -1,7 +1,6 @@
 import { ChevronDownIcon, PlusIcon } from "@primer/octicons-react";
 import axios from "axios";
 import { Col, Row, ListGroup, ListGroupItem } from "react-bootstrap";
-// import {useRouter} from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -9,7 +8,7 @@ export default function Index({ products }) {
     console.log(products)
 
     const AllCategories = [
-        { text: "Men", route: "/men" }, { text: "Women", route: "women" }, { text: "Combo", route: "combo" }
+        { text: "Men", route: "men's clothing" }, { text: "Women", route: "women's clothing" }, { text: "Combo", route: "combo" }
         , { text: "Special", route: "special" }, { text: "Sneakers & Athletic", route: "" }
     ]
 
@@ -38,7 +37,7 @@ export default function Index({ products }) {
 
                     <Col md={8} className="d-grid products py-4 mt-lg-4">
                         {
-                            products.map(product => (
+                            products.length ? products.map(product => (
                                 <Link href={`/product/${product?.id}`} key={product?.title} passHref>
                                     <div className="product product_hover d-grid justify-content-center align-items-stretch">
                                         <Image
@@ -53,6 +52,8 @@ export default function Index({ products }) {
                                     </div>
                                 </Link>
                             ))
+                            :
+                            <h1>No product found</h1>
                         }
                     </Col>
 

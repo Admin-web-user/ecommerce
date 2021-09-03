@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from 'next/link'
 import { FormControl, FormLabel, Button, Spinner } from 'react-bootstrap'
 import { SyncIcon, XCircleIcon } from '@primer/octicons-react';
 
@@ -18,7 +19,7 @@ export default function CartProducts({ products }) {
 const CartProduct = ({ product }) => {
     return (
         <div className="d-sm-flex justify-content-between align-items-center my-2 pb-3 border-bottom">
-
+            <Link href={`/product/${product.id}`} passHref>
             <div className="d-block d-sm-flex align-items-center text-center text-sm-start">
                 <a className="d-inline-block flex-shrink-0 mx-auto me-sm-4">
                     <Image height={180} width={180} src={product.image || "https://octodex.github.com/images/yogitocat.png"} alt={product.title} />
@@ -32,6 +33,8 @@ const CartProduct = ({ product }) => {
                     <div className="fs-lg text-accent pt-2">${product.price}</div>
                 </div>
             </div>
+            </Link>
+
 
             <div className="pt-2 pt-sm-0 ps-sm-3 mx-auto mx-sm-0 text-center text-sm-start">
                 <FormLabel>Quantity</FormLabel>

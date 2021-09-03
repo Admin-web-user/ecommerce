@@ -11,14 +11,14 @@ import Background1 from '../public/images/bg1.webp';
 export default function NavigationBar() {
     const navItems = [
         { text: "All Categories", type: "offcanvas", icon: <GridIcon size="15" /> },
-        { text: "Sell", route: "/sell" },
+        { text: "Sell", route: "/vendor" },
         { text: "Cart", route: "/cart", icon: <CartIcon fill="white" size="15" /> },
         { text: "Sign in/up", route: "/auth" }
     ];
 
     const AllCategories = [
         { text: "All", route: "/products" },
-        { text: "Men", route: "/products/men's clothing" }, { text: "Women", route: "/products/women's clothing" }, { text: "Combo", route: "" }
+        { text: "Men", route: "men's clothing" }, { text: "Women", route: "women's clothing" }, { text: "Combo", route: "" }
         , { text: "Special", route: "" }, { text: "Sneakers & Athletic", route: "" }
     ]
     const [show, setShow] = useState(null);
@@ -68,7 +68,7 @@ export default function NavigationBar() {
                                                                 {
                                                                     AllCategories.map(category => (
                                                                         <ListGroup.Item key={category?.text}>
-                                                                            <Link href={category?.route} passHref>
+                                                                            <Link href={`products?category=${category?.route}`} passHref>
                                                                                 <button className="w-100 btn">
                                                                                     {category?.text}
                                                                                 </button>

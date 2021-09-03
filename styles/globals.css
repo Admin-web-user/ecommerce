@@ -1,5 +1,6 @@
 :root {
   --primary: #333617;
+  --light-primary: #00f56561;
 }
 html,
 body {
@@ -107,6 +108,16 @@ button.btn.bg-transparent.btn-outline-light:hover {
 }
 .text-md-justify {
   text-align: center !important;
+}
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  background-color: var(--light-primary);
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.ct-series-a .ct-point, .ct-series-a .ct-line {
+  stroke: rgba(25,135,84)!important;
 }
 @media (max-width: 450px) {
   .small_arrow {

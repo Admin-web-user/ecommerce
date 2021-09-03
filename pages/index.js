@@ -7,7 +7,7 @@ import Selling from '../components/Selling';
 import Background4 from '../public/images/web_bg.webp';
 
 export default function Home({ featuredProducts, bestDeals }) {
-  
+
   const windoWidth = 1920;
 
   return (
@@ -18,10 +18,12 @@ export default function Home({ featuredProducts, bestDeals }) {
         <h1 className="py-3 mx-auto px-1 fw-bolder" style={{ lineHeight: "1.5", maxWidth: "800px", fontSize: "clamp(2rem, 5vw, 4rem)" }}>
           DISCOVER SECRETS OF SAVING MONEY ONLINE
         </h1>
-        <button className="btn bg-transparent btn-outline-light btn-lg border border-3 rounded-0 mx-auto mb-5"
-          style={{ fontSize: "1.25em", width: "200px", fontWeight: '600' }}>
-            <a href="#popularCategories">SHOP NOW</a>
-            </button>
+        <a href="#popularCategories">
+          <button className="btn bg-transparent btn-outline-light btn-lg border border-3 rounded-0 mx-auto mb-5"
+            style={{ fontSize: "1.25em", width: "200px", fontWeight: '600' }}>
+            SHOP NOW
+          </button>
+        </a>
         <hr className="opacity-0" />
       </div>
 
@@ -34,7 +36,7 @@ export default function Home({ featuredProducts, bestDeals }) {
         banner={Background3} reverse={true} />
       <Selling />
       <div>
-        <Image src={Background4?.src} width={windoWidth} height={500} alt="bottom image"/>
+        <Image src={Background4?.src} width={windoWidth} height={500} alt="bottom image" />
       </div>
     </>
   )
