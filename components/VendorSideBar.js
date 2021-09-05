@@ -1,4 +1,5 @@
 import { Col, Tab, Nav, Row } from 'react-bootstrap';
+import AddProducts from './Dashboard/AddProducts';
 import Dashboard from './Dashboard/Dashboard';
 import Profile from './Dashboard/Profile';
 
@@ -7,9 +8,8 @@ export default function VendorSideBar() {
     const tabs = [
         { eventKey: "dashboard", text: "Dashboard", section: <Dashboard/> },
         { eventKey: "profile", text: "Profile", section: <Profile/> },
-        { eventKey: "settings", text: "Settings", section: "" },
         { eventKey: "products", text: "Products", section: "" },
-        { eventKey: "add_products", text: "Add new product", section: "" },
+        { eventKey: "add_products", text: "Add new product", section: <AddProducts/> },
         { eventKey: "signout", text: "Sign Out", section: "" },
     ]
 
