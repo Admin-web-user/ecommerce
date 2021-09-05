@@ -17,7 +17,7 @@ export default function NavigationBar() {
     ];
 
     const AllCategories = [
-        { text: "All", route: "/products" },
+        { text: "All", route: "/" },
         { text: "Men", route: "men's clothing" }, { text: "Women", route: "women's clothing" }, { text: "Combo", route: "" }
         , { text: "Special", route: "" }, { text: "Sneakers & Athletic", route: "" }
     ]
