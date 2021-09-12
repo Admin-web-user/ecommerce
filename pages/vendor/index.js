@@ -1,8 +1,22 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import VendorSideBar from '../../components/VendorSideBar';
 import { Col, Container, Row } from 'react-bootstrap';
+import Profile from '../../components/Dashboard/Profile';
+import AddProducts from '../../components/Dashboard/AddProducts';
+import Products from '../../components/Dashboard/Products';
+import Dashboard from '../../components/Dashboard/Dashboard';
+import SignOutFromVendor from '../../components/Dashboard/SignOut';
+import { useEffect, useState } from 'react';
 
-export default function index() {
+export default function Index() {
+    const router = useRouter();
+
+    const [param, setParam] = useState(null)
+    useEffect(() => {
+        setParam(router?.query);
+    }, [router])
+
     return (
         <>
             <main>
@@ -24,8 +38,16 @@ export default function index() {
                 </div>
                 <Container>
                     <Row>
-                        <Col>
+                        <Col sm={4}>
                             <VendorSideBar />
+                        </Col>
+                        <Col sm={8}>
+                            {
+                                param?.tab === "profile"? <Profile/> :
+                                param?.tab === "products"? <Products/>:
+                                param?.tab === "signout"? <SignOutFromVendor />:
+                                param?.tab === "add-products"? <AddProducts/>: <Dashboard/>
+                            }
                         </Col>
                     </Row>
                 </Container>

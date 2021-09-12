@@ -1,56 +1,41 @@
-import { Col, Tab, Nav, Row } from 'react-bootstrap';
-import AddProducts from './Dashboard/AddProducts';
-import Dashboard from './Dashboard/Dashboard';
-import Profile from './Dashboard/Profile';
+import Link from 'next/link';
+import { Nav, } from 'react-bootstrap';
 
 export default function VendorSideBar() {
 
     const tabs = [
-        { eventKey: "dashboard", text: "Dashboard", section: <Dashboard/> },
-        { eventKey: "profile", text: "Profile", section: <Profile/> },
-        { eventKey: "products", text: "Products", section: "" },
-        { eventKey: "add_products", text: "Add new product", section: <AddProducts/> },
-        { eventKey: "signout", text: "Sign Out", section: "" },
+        { eventKey: "dashboard", text: "Dashboard", href: "" },
+        { eventKey: "profile", text: "Profile", href: "profile" },
+        { eventKey: "products", text: "Products", href: "products" },
+        { eventKey: "add_products", text: "Add new product", href: "add-products" },
+        { eventKey: "signout", text: "Sign Out", href: "signout" },
     ]
 
     return (
         <div>
-            <Tab.Container id="left-tabs-example" defaultActiveKey={tabs[0].eventKey}>
-                <Row>
-                    <Col sm={3} className="p-2">
-                        <div className="p-1 shadow">
-                            <div className="bg-light-1 pt-2 px-2">
-                                <h5>
-                                    Accounts
-                                </h5>
-                                <hr />
-                            </div>
-                            <Nav variant="pills" className="flex-column">
-                                {
-                                    tabs.map(tab => (
-                                        <Nav.Item key={tab.text} className="cursor-pointer">
-                                            <Nav.Link className="text-black" eventKey={tab.eventKey}>{tab.text}</Nav.Link>
-                                            <hr className="m-0" />
-                                        </Nav.Item>
-                                    ))
-                                }
-                            </Nav>
-                        </div>
+            <div className="p-2">
+                <div className="p-1 shadow">
+                    <div className="bg-light-1 pt-2 px-2">
+                        <h5>
+                            Accounts
+                        </h5>
+                        <hr />
+                    </div>
+                    <Nav variant="pills" className="flex-column">
+                        {
+                            tabs.map(tab => (
+                                <div key={tab.text}>
+                                    <Nav.Item className="cursor-pointer p-2">
+                                        <Link className="text-black" href={`?tab=${tab.href}`} >{tab.text}</Link>
+                                    </Nav.Item>
+                                    <hr className="m-0" />
+                                </div>
+                            ))
+                        }
+                    </Nav>
+                </div>
 
-                    </Col>
-                    <Col sm={9}>
-                        <Tab.Content className="py-3">
-                            {
-                                tabs.map((tab,i) => (
-                                    <Tab.Pane key={`Tab ${i}`} eventKey={tab.eventKey}>
-                                        {tab.section}
-                                    </Tab.Pane>
-                                ))
-                            }
-                        </Tab.Content>
-                    </Col>
-                </Row>
-            </Tab.Container>
+            </div>
         </div>
     )
 }
