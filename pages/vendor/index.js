@@ -1,21 +1,42 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import VendorSideBar from '../../components/VendorSideBar';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row, Spinner, Button } from 'react-bootstrap';
 import Profile from '../../components/Dashboard/Profile';
 import AddProducts from '../../components/Dashboard/AddProducts';
 import Products from '../../components/Dashboard/Products';
 import Dashboard from '../../components/Dashboard/Dashboard';
 import SignOutFromVendor from '../../components/Dashboard/SignOut';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import AuthContext from '../../lib/context';
+import SellerLogin from '../../components/SellerLogin';
 
 export default function Index() {
     const router = useRouter();
 
+    const { seller, loaded } = useContext(AuthContext)
+
     const [param, setParam] = useState(null)
     useEffect(() => {
         setParam(router?.query);
-    }, [router])
+    }, [router, seller])
+
+    if (!loaded) {
+        return (
+            <div className="py-4 d-flex justify-content-center align-items-center h-100">
+                <Spinner animation="border" variant="success" />
+            </div>
+        )
+    }
+    else if (!seller) {
+        return (
+            <>
+                <main className="pt-5 pb-4">
+                    <SellerLogin />
+                </main>
+            </>
+        )
+    }
 
     return (
         <>
@@ -43,10 +64,21 @@ export default function Index() {
                         </Col>
                         <Col sm={8}>
                             {
-                                param?.tab === "profile"? <Profile/> :
-                                param?.tab === "products"? <Products/>:
-                                param?.tab === "signout"? <SignOutFromVendor />:
-                                param?.tab === "add-products"? <AddProducts/>: <Dashboard/>
+                                param?.tab === "profile" && seller?.emailVerified ? <Profile /> :
+                                    param?.tab === "products" && seller?.emailVerified ? <Products /> :
+                                        param?.tab === "signout" && seller?.emailVerified ? <SignOutFromVendor /> :
+                                            param?.tab === "add-products" && seller?.emailVerified ? <AddProducts />
+                                                : seller?.emailVerified && <Dashboard />
+                            }
+                            {
+                                !seller?.emailVerified &&
+                                <div className="text-center py-4">
+                                    <h4 className="pb-2 text-center">
+                                    <b>Check your inbox!!</b><br/> A verification link was sent to {seller?.email}. Please verify your email before start working</h4>
+                                    <Button> SEND AGAIN </Button>
+                                    <p className="text-center py-2 fw-bolder">OR</p>
+                                    <Button variant="success" >SIGN OUT</Button>
+                                </div>
                             }
                         </Col>
                     </Row>

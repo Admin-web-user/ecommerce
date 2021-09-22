@@ -10,7 +10,7 @@ export const db = mysql({
     }
 })
 
-export async function query(q, values) {
+export async function query(q: string, values: any = []) {
     try {
         const results = await db.query(q, values);
         await db.end();
@@ -19,3 +19,5 @@ export async function query(q, values) {
         console.log(error)
     }
 }
+
+// values: ( [][][] |string | number)[] | string | number = []

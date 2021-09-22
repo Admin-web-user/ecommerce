@@ -6,6 +6,7 @@ import '../styles/globals.css';
 import 'nprogress/nprogress.css';
 import 'chartist/dist/chartist.css'
 import Footer from '../components/Footer';
+import { AuthProvider } from '../lib/context';
 
 function MyApp({ Component, pageProps }) {
 
@@ -17,11 +18,13 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      <NavigationBar />
-      <section className="pt-top">
-        <Component {...pageProps} key={router}/>
-      </section>
-      <Footer/>
+      <AuthProvider>
+        <NavigationBar />
+        <section className="pt-top">
+          <Component {...pageProps} key={router} />
+        </section>
+        <Footer />
+      </AuthProvider>
     </>
   )
 }

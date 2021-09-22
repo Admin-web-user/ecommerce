@@ -5,9 +5,11 @@ import Background3 from '../public/images/sneakers.webp';
 import ProductSilder from '../components/ProductSilder';
 import Selling from '../components/Selling';
 import Background4 from '../public/images/web_bg.webp';
+import axios from 'axios';
 
-export default function Home({ featuredProducts, bestDeals }) {
+export default function Home({ featuredProducts, bestDeals, _products }) {
 
+  console.log(_products);
   const windoWidth = 1920;
 
   return (
@@ -48,10 +50,13 @@ export async function getStaticProps() {
   const bestDeals = await womenClothing.json();
   const featuredProducts = await data.json();
 
+  const _products = await axios.get(`${process.env.DEV_HOST}/api/products`)
+  
   return {
     props: {
       featuredProducts,
-      bestDeals
+      bestDeals,
+      _products: _products.data
     }
   }
 }
