@@ -5,6 +5,7 @@ import {
     createUserWithEmailAndPassword,
     sendEmailVerification,
     onAuthStateChanged,
+    signOut,
 } from "firebase/auth";
 import { doc, setDoc, getFirestore } from "firebase/firestore";
 
@@ -52,8 +53,10 @@ export const signUpAsSeller = async (
                 const supplierData = { email, username: name, company_name, description, contact_number, address, city, payment_methods, };
                 const member_since = new Date().toISOString().slice(0, 19).replace('T', ' ');
                 await axios
-                    .post(`/api/set-seller`, { ...supplierData, member_since, token: seller.user.uid })
-                    .catch((err) => console.log(err));
+                    .post(`/api/set-seller`, { ...supplierData, member_since, uid: seller.user.uid })
+                    .catch((err) => {
+                        console.log(err)
+                    });
 
                 callback({
                     head: "Verify your email",
@@ -73,3 +76,11 @@ export const isLoggedIn = (callback: Function) => {
         callback(user);
     });
 };
+
+export const logOut = async(callback: Function) => {
+    signOut(auth).then(callback());
+}
+
+export const signInAsSeller = () => {
+    
+}

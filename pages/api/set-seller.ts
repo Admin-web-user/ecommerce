@@ -1,13 +1,6 @@
 import { NextApiHandler } from "next";
-import bcrypt from 'bcrypt';
+import { firebaseAdmin } from '@/lib/Firebase/service';
 import { db, query } from "@/lib/db";
-
-
-const encryptPassword = async (PlaintextPassword: string, saltRounds = 10) => {
-    const hash = await bcrypt.hash(PlaintextPassword, saltRounds)
-        .catch((err) => console.log(err))
-    return hash || null;
-}
 
 const isSellerInDatabase = async (email: string) => {
     const sql = `SELECT company_name from SUPPLIERS WHERE email = ?`;
@@ -32,12 +25,13 @@ const handler: NextApiHandler = async (req, res) => {
         payment_methods,
         description,
         member_since,
-        token
+        token,
+        uid
     } = req.body;
     try {
-
+        //POST method
         if (req.method === "POST") {
-            if(token) {
+            if (uid) {
                 const checkSeller = await isSellerInDatabase(email);
                 if (!checkSeller[0]?.email) {
                     const postSQL = `
@@ -51,9 +45,9 @@ const handler: NextApiHandler = async (req, res) => {
                         payment_methods,
                         description,
                         member_since,
-                        token)
+                        uid)
                         VALUES ?`
-    
+
                     const values = [[
                         company_name,
                         username,
@@ -64,21 +58,40 @@ const handler: NextApiHandler = async (req, res) => {
                         payment_methods,
                         description,
                         member_since,
-                        token
+                        uid,
                     ]]
-                    const queriedResponse = await query(postSQL, [values]).catch(err => {throw new Error(err.message)});
+                    const queriedResponse = await query(postSQL, [values]).catch(err => { throw new Error(err.message) });
                     res.json(queriedResponse);
-    
+
                 } else {
                     res.json({ error: 'The email is already in use' })
                 }
             } else {
-                res.json({error: " MISSING A TOKEN "})
+                res.json({ error: " Technical Error!!; MISSING User ID " })
             }
 
+            //PUT method
         } else if (req.method === "PUT") {
-            const verifyToken = await query(`SELECT token WHERE id = ? `, [token]);
-            console.log(verifyToken);
+            const { email: sellerEmail, uid } = await firebaseAdmin.auth().verifyIdToken(token);
+            if (sellerEmail && uid) {
+
+                const putSQL = `UPDATE SUPPLIERS
+                SET  company_name = ?,
+                username = ?,
+                email = ?,
+                address = ?,
+                contact_number = ?,
+                city = ?,
+                payment_methods = ?,
+                description = ? 
+                WHERE EXISTS (SELECT email FROM SUPPLIERS WHERE uid = ?)`
+
+                const values = [company_name, username, email, address, contact_number, city, payment_methods, description,]
+
+                
+                const queriedResponse = await query(putSQL, values).catch(err => { throw new Error(err.message) });
+                res.json(queriedResponse);
+            }
 
         } else {
             res.status(403).json({ message: "Invalid method" });

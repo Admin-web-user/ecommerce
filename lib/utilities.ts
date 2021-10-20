@@ -1,4 +1,10 @@
+import bcrypt from 'bcrypt';
 
+const encryptPassword = async (PlaintextPassword: string, saltRounds = 10) => {
+    const hash = await bcrypt.hash(PlaintextPassword, saltRounds)
+        .catch((err) => console.log(err))
+    return hash || null;
+}
 export const removeItem = (a: Array<String>, item: String) : Array<String> => {
     for( var i = 0; i < a.length; i++){ 
                                    
@@ -9,6 +15,3 @@ export const removeItem = (a: Array<String>, item: String) : Array<String> => {
     }
     return a ? a : []
 }
-
-
-export const MAGIC_PUBLIC_KEY = process.env.MAGIC_PUBLIC_KEY || 'pk_test_47E887C7DC9AE19A';

@@ -107,13 +107,9 @@ export default function SellerLogin() {
         if (member?.email) {
             try {
                 setLoading(true)
-                const { data } = await axios.get(`api/ismember/${member.email}`);
-                if (data?.error) {
-                    setLoading(false)
-                    showModal('ERROR', data?.error)
-                } else {
-                    loginSeller(data[0].email);
-                }
+
+                //Code goes here....
+
             } catch (error) {
                 setLoading(false)
                 console.log(error.message)
